@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 
-
+from Process_images import image_loader, image_loader_val
+import random
+import numpy as np
+import os
+import glob
 from tensorflow.keras.layers import Conv2D, BatchNormalization, Activation, MaxPool2D, Conv2DTranspose, Concatenate, Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.applications import VGG16
+from tensorflow.keras.optimizers import Adam
+
 
 def conv_block(input, num_filters):
     x = Conv2D(num_filters, 3, padding="same")(input)
@@ -48,9 +54,30 @@ def build_vgg16_unet(input_shape):
     outputs = Conv2D(4, 1, padding="same", activation="softmax")(d4)
 
     model = Model(inputs, outputs, name="VGG16_U-Net")
+    model.compile(loss='categorical_crossentropy',optimizer = 'Adam', metrics= ['accuracy'])
     return model
 
-if __name__ == "__main__":
-    input_shape = (512, 512, 3)
-    model = build_vgg16_unet(input_shape)
-    model.summary()
+
+input_shape = (512, 512, 3)
+model = build_vgg16_unet(input_shape)
+model.summary()
+
+print(model.input_shape)
+print(model.output.shape)
+
+batch_size = 2
+train_img_dir = 'Data_3channels_train/images/'
+train_mask_dir = 'Data_3channels_train/masks/'
+
+train_img_list=os.listdir(train_img_dir)
+train_mask_list = os.listdir(train_mask_dir)
+
+train_img_datagen = image_loader(train_img_dir, train_img_list, 
+                                train_mask_dir, train_mask_list, batch_size)
+
+
+history = model.fit(train_img_datagen,
+                    steps_per_epoch=185, epochs=100,
+                    verbose=1,)
+
+

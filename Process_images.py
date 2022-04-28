@@ -79,9 +79,9 @@ val_img_datagen = image_loader_val(val_img_dir, val_img_list, batch_size)
 
 # display images
 
-img_num = random.randint(0,img.shape[0]-1)
-test_img=img[img_num]
-test_mask=msk[img_num]
+#img_num = random.randint(0,img.shape[0]-1)
+test_img=img[1]
+test_mask=msk[1]
 test_mask=np.argmax(test_mask, axis=3)
 
 n_slice=random.randint(0, test_mask.shape[2])
