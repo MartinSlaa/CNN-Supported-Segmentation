@@ -58,26 +58,11 @@ def build_vgg16_unet(input_shape):
     return model
 
 
-input_shape = (512, 512, 3)
+input_shape = (128, 128, 3)
 model = build_vgg16_unet(input_shape)
 model.summary()
 
 print(model.input_shape)
 print(model.output.shape)
-
-batch_size = 2
-train_img_dir = 'Data_3channels_train/images/'
-train_mask_dir = 'Data_3channels_train/masks/'
-
-train_img_list=os.listdir(train_img_dir)
-train_mask_list = os.listdir(train_mask_dir)
-
-train_img_datagen = image_loader(train_img_dir, train_img_list, 
-                                train_mask_dir, train_mask_list, batch_size)
-
-
-history = model.fit(train_img_datagen,
-                    steps_per_epoch=185, epochs=100,
-                    verbose=1,)
 
 
