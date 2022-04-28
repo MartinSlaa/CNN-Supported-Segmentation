@@ -59,10 +59,9 @@ def image_loader_val(img_dir, img_list, batch_size):
             batch_start += batch_size
             batch_end += batch_size
             
-
-train_img_dir = 'Data_3channels_train/images/'
-train_mask_dir = 'Data_3channels_train/masks/'
-val_img_dir = 'Data_3channels_val/images/'
+train_img_dir = '/Data_3channels_train/images/'
+train_mask_dir = '/Data_3channels_train/masks/'
+val_img_dir = '/Data_3channels_val/images/'
 
 train_img_list=os.listdir(train_img_dir)
 train_mask_list = os.listdir(train_mask_dir)
@@ -72,3 +71,30 @@ batch_size = 2
 train_img_datagen = image_loader(train_img_dir, train_img_list, 
                                 train_mask_dir, train_mask_list, batch_size)
 
+#Verify generator.... In python 3 next() is renamed as __next__()
+img, msk = train_img_datagen.__next__()
+
+val_img_list = os.listdir(val_img_dir)
+val_img_datagen = image_loader_val(val_img_dir, val_img_list, batch_size)
+
+img_num = random.randint(0,img.shape[0]-1)
+test_img=img[img_num]
+test_mask=msk[img_num]
+test_mask=np.argmax(test_mask, axis=3)
+
+n_slice=random.randint(0, test_mask.shape[2])
+plt.figure(figsize=(12, 8))
+
+plt.subplot(221)
+plt.imshow(test_img[:,:,n_slice, 0], cmap='gray')
+plt.title('Image flair')
+plt.subplot(222)
+plt.imshow(test_img[:,:,n_slice, 1], cmap='gray')
+plt.title('Image t1ce')
+plt.subplot(223)
+plt.imshow(test_img[:,:,n_slice, 2], cmap='gray')
+plt.title('Image t2')
+plt.subplot(224)
+plt.imshow(test_mask[:,:,n_slice])
+plt.title('Mask')
+plt.show()
