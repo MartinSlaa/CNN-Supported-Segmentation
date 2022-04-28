@@ -71,11 +71,13 @@ batch_size = 2
 train_img_datagen = image_loader(train_img_dir, train_img_list, 
                                 train_mask_dir, train_mask_list, batch_size)
 
-#Verify generator.... In python 3 next() is renamed as __next__()
+# Verify image generator
 img, msk = train_img_datagen.__next__()
 
 val_img_list = os.listdir(val_img_dir)
 val_img_datagen = image_loader_val(val_img_dir, val_img_list, batch_size)
+
+# display images
 
 img_num = random.randint(0,img.shape[0]-1)
 test_img=img[img_num]
