@@ -59,9 +59,9 @@ def image_loader_val(img_dir, img_list, batch_size):
             batch_start += batch_size
             batch_end += batch_size
             
-train_img_dir = '/Data_3channels_train/images/'
-train_mask_dir = '/Data_3channels_train/masks/'
-val_img_dir = '/Data_3channels_val/images/'
+train_img_dir = 'Data_3channels_train/images/'
+train_mask_dir = 'Data_3channels_train/masks/'
+val_img_dir = 'Data_3channels_val/images/'
 
 train_img_list=os.listdir(train_img_dir)
 train_mask_list = os.listdir(train_mask_dir)
