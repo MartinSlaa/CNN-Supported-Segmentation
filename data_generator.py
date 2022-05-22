@@ -4,7 +4,6 @@ original code written by Rastislav. at https://www.kaggle.com/code/rastislav/3d-
 
 Code has been adapted and modified by Martin Slaastuen to fit this project.
 
-@author: marti
 """
 
 import os

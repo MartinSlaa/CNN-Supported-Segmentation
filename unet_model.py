@@ -7,8 +7,6 @@ Code has been adapted to my use. This is used to test a simple unet model.
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Conv3D, MaxPooling3D, concatenate, Conv3DTranspose, BatchNormalization, Dropout, Lambda
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.metrics import MeanIoU
 from tensorflow.keras.utils import plot_model
 
 
