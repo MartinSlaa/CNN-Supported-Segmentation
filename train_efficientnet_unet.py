@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue May 24 16:18:28 2022
-
-@author: marti
+The original code for vgg16-unet implementation was written by Nikhil Tomar https://github.com/nikhilroxtomar/Semantic-Segmentation-Architecture/blob/main/TensorFlow/resnet50_unet.py
+and the original code for datagenerator was written by original code written by Rastislav. at https://www.kaggle.com/code/rastislav/3d-mri-brain-tumor-segmentation-u-net/notebook
 """
 
 from custom_metrics import dice_coef, dice_coef_necrotic, dice_coef_edema, dice_coef_enhancing, precision, sensitivity, specificity

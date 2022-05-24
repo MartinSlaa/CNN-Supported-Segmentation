@@ -2,7 +2,7 @@
 """
 original code written by Rastislav. at https://www.kaggle.com/code/rastislav/3d-mri-brain-tumor-segmentation-u-net/notebook
 
-Code has been adapted and modified by Martin Slaastuen to fit this project.
+Code has been adapted and modified to fit this project.
 
 """
 
