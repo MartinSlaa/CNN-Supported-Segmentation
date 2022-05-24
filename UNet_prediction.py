@@ -1,22 +1,24 @@
 # Databricks notebook source
+
+"""Code has been created by Dr. Sreenivas Bhattiprolu https://github.com/bnsreenu/python_for_microscopists/blob/master/231_234_BraTa2020_Unet_segmentation/233_custom_datagen.py
+   Code has been adapted to use as a baseline model for the project.  """
 import numpy as np
 import keras
 import matplotlib.pyplot as plt
 
 
 
-# COMMAND ----------
 
-# Copy model from dbfs to databricks tmp folder. If tried in spyder this line is not needed
+
+# Copy model from dbfs to databricks tmp folder. Can be commented out if code is tested on sypder
 dbutils.fs.cp("dbfs:/mnt/mydata/BraTS/unet_3d.hdf5", "file:/tmp/unet_3d.hdf5")
 
-# COMMAND ----------
+
 
 #Load Trained model. If used in spyder change path to "trained_models/unet_3d.hdf5
 model2 = keras.models.load_model("/tmp/unet_3d.hdf5",
                                  compile = False)
 
-# COMMAND ----------
 
 # Use model to do prediction on two randomly picked images
 img_num1 = 82
@@ -44,7 +46,7 @@ test_img_input2 = np.expand_dims(test_img2, axis=0)
 test_prediction2 = model2.predict(test_img_input2)
 test_prediction_argmax2=np.argmax(test_prediction2, axis=4)[0,:,:,:]
 
-# COMMAND ----------
+
 
 # display original image, ground truth and image predicted by model
 n_slice = 55
@@ -69,7 +71,7 @@ plt.title('Prediction on test Image 209')
 plt.imshow(test_prediction_argmax2[:,:, n_slice])
 plt.show()
 
-# COMMAND ----------
+
 
 img_num3 = 111
 img_num4 = 179
@@ -96,7 +98,7 @@ test_img_input4 = np.expand_dims(test_img4, axis=0)
 test_prediction4 = model2.predict(test_img_input4)
 test_prediction_argmax4=np.argmax(test_prediction4, axis=4)[0,:,:,:]
 
-# COMMAND ----------
+
 
 n_slice = 55
 plt.figure(figsize=(20, 10))

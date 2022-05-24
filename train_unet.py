@@ -109,19 +109,16 @@ plt.show()
 
 """Evaluate model"""
 
-unet_3d = tensorflow.keras.models.load_model("models/unet_3d.hdf5",
-                                  compile= False)
-
 #Test mean IoU score for 8 images 
 batch_size=8 
 test_img_datagen = imageLoader(val_img_dir, val_img_list, 
                                 val_mask_dir, val_mask_list, batch_size)
 
-#
+# use datagen to get test images
 test_image_batch, test_mask_batch = test_img_datagen.__next__()
 
 test_mask_batch_argmax = np.argmax(test_mask_batch, axis=4)
-test_pred_batch = unet_3d.predict(test_image_batch) # this should be run on GPU. Kernal crash when tried on CPU 
+test_pred_batch = model.predict(test_image_batch) # this should be run on GPU. Kernal crash when tried on CPU 
 test_pred_batch_argmax = np.argmax(test_pred_batch, axis=4)
 
 """ Check mean IoU score: results 0.75187665"""
@@ -131,49 +128,3 @@ IOU_keras.update_state(test_pred_batch_argmax, test_mask_batch_argmax)
 print("Mean IoU =", IOU_keras.result().numpy())
 
 
-"""Display two images with predicted segmentation"""
-
-img_num1 = 82
-img_num2 = 209
-
-test_img1 = np.load("BraTS2020_TrainingData/input_data_128/val/images/image_"+str(img_num1)+".npy")
-
-test_mask1 = np.load("BraTS2020_TrainingData/input_data_128/val/masks/mask_"+str(img_num1)+".npy")
-
-test_mask_argmax1=np.argmax(test_mask1, axis=3)
-test_img_input1 = np.expand_dims(test_img1, axis=0)
-test_prediction1 = unet_3d.predict(test_img_input1)
-test_prediction_argmax1=np.argmax(test_prediction1, axis=4)[0,:,:,:]
-
-test_img2 = np.load("BraTS2020_TrainingData/input_data_128/val/images/image_"+str(img_num2)+".npy")
-
-test_mask2 = np.load("BraTS2020_TrainingData/input_data_128/val/masks/mask_"+str(img_num2)+".npy")
-
-test_mask_argmax2=np.argmax(test_mask2, axis=3)
-test_img_input2 = np.expand_dims(test_img2, axis=0)
-test_prediction2 = unet_3d.predict(test_img_input2)
-test_prediction_argmax2=np.argmax(test_prediction2, axis=4)[0,:,:,:]
-
-
-# Display images of original picture, ground truth and predicted segmentation
-n_slice = 55
-plt.figure(figsize=(20, 10))
-plt.subplot(231)
-plt.title('Original Image 82')
-plt.imshow(test_img1[:,:,n_slice,0], cmap='gray')
-plt.subplot(232)
-plt.title('Ground truth 82')
-plt.imshow(test_mask_argmax1[:,:,n_slice])
-plt.subplot(233)
-plt.title('Predicted Mask Image 82')
-plt.imshow(test_prediction_argmax1[:,:, n_slice])
-plt.subplot(234)
-plt.title('Original Image 209')
-plt.imshow(test_img2[:,:,n_slice,0], cmap='gray')
-plt.subplot(235)
-plt.title('Ground Truth 209')
-plt.imshow(test_mask_argmax2[:,:,n_slice])
-plt.subplot(236)
-plt.title('Prediction Mask image 209')
-plt.imshow(test_prediction_argmax2[:,:, n_slice])
-plt.show()
